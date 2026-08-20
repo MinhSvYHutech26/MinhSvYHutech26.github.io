@@ -3,236 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mastery Hub - IELTS & Medical Prep</title>
+  <title>Mastery Hub - IELTS & Medical Engine</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .glassmorphism {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .glass-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
 
-  <!-- Navigation -->
-  <header class="border-b border-slate-800 bg-slate-900/50 sticky top-0 backdrop-blur z-50">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/60 sticky top-0 backdrop-blur z-50">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">M</div>
-        <span class="font-bold text-lg tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">MASTERY HUB</span>
+        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">M</div>
+        <span class="font-bold text-base tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">MASTERY HUB</span>
       </div>
       
       <!-- Module Switcher -->
       <nav class="flex items-center space-x-1 bg-slate-800 p-1 rounded-xl text-xs font-semibold">
-        <button id="tab-ielts" onclick="switchDomain('ielts')" class="px-4 py-1.5 rounded-lg bg-indigo-600 text-white transition">IELTS Core</button>
-        <button id="tab-med" onclick="switchDomain('med')" class="px-4 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
-          <i class="fa-solid fa-stethoscope text-xs"></i> Medical (Locked)
+        <button id="tab-ielts" onclick="switchDomain('ielts')" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white transition">IELTS Core</button>
+        <button id="tab-med" onclick="switchDomain('med')" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+          <i class="fa-solid fa-dna text-xs"></i> Medical
         </button>
       </nav>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+  <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
     
     <!-- IELTS Module -->
-    <div id="ielts-section" class="space-y-8">
+    <div id="ielts-section" class="space-y-6">
       
-      <!-- Band Filter & Progress -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glassmorphism p-4 rounded-2xl">
+      <!-- Filter Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-4 rounded-2xl">
         <div>
-          <h2 class="text-xl font-bold">Target Band Mastery</h2>
-          <p class="text-xs text-slate-400">Chọn cấp độ để tải dữ liệu bài tập và từ vựng tương ứng</p>
+          <h2 class="text-lg font-bold text-slate-100">Kho dữ liệu trọng tâm</h2>
+          <p class="text-xs text-slate-400">Chọn mục tiêu để hệ thống lọc thẻ tương ứng</p>
         </div>
         <div class="flex flex-wrap gap-2" id="band-selectors">
-          <button onclick="setBand('all')" class="band-btn px-3 py-1 text-xs rounded-lg border border-slate-700 bg-slate-800 text-white active-band">Tất cả</button>
-          <button onclick="setBand('5.5-6.5')" class="band-btn px-3 py-1 text-xs rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500">Band 5.5 - 6.5</button>
-          <button onclick="setBand('7.0-7.5')" class="band-btn px-3 py-1 text-xs rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500">Band 7.0 - 7.5</button>
-          <button onclick="setBand('8.0+')" class="band-btn px-3 py-1 text-xs rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500">Band 8.0+</button>
+          <button onclick="setBandFilter('all')" class="band-btn px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-indigo-600 text-white font-medium">Tất cả</button>
+          <button onclick="setBandFilter('5.5-6.5')" class="band-btn px-3 py-1.5 text-xs rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-indigo-500 font-medium">Band 5.5 - 6.5</button>
+          <button onclick="setBandFilter('7.0+')" class="band-btn px-3 py-1.5 text-xs rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-indigo-500 font-medium">Band 7.0+</button>
         </div>
       </div>
 
-      <!-- Skills Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div onclick="filterSkill('reading')" class="p-4 rounded-xl glassmorphism hover:border-indigo-500 cursor-pointer transition border border-slate-800">
-          <i class="fa-solid fa-book-open text-indigo-400 text-xl mb-2"></i>
-          <h3 class="font-bold text-sm">Reading</h3>
-          <p class="text-xs text-slate-400">Tư duy Skim/Scan & Logic bài đọc</p>
+      <!-- Main Study Card -->
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-5">
+        
+        <div class="flex items-center justify-between">
+          <span id="card-tag" class="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Academic Vocab</span>
+          <span id="card-band" class="text-xs font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">Target: Band 7.0+</span>
         </div>
-        <div onclick="filterSkill('listening')" class="p-4 rounded-xl glassmorphism hover:border-cyan-400 cursor-pointer transition border border-slate-800">
-          <i class="fa-solid fa-headphones text-cyan-400 text-xl mb-2"></i>
-          <h3 class="font-bold text-sm">Listening</h3>
-          <p class="text-xs text-slate-400">Phản xạ bẫy phát âm & ngữ cảnh</p>
-        </div>
-        <div onclick="filterSkill('writing')" class="p-4 rounded-xl glassmorphism hover:border-emerald-400 cursor-pointer transition border border-slate-800">
-          <i class="fa-solid fa-pen-nib text-emerald-400 text-xl mb-2"></i>
-          <h3 class="font-bold text-sm">Writing</h3>
-          <p class="text-xs text-slate-400">Task 1 Data & Task 2 Argument</p>
-        </div>
-        <div onclick="filterSkill('speaking')" class="p-4 rounded-xl glassmorphism hover:border-amber-400 cursor-pointer transition border border-slate-800">
-          <i class="fa-solid fa-microphone-lines text-amber-400 text-xl mb-2"></i>
-          <h3 class="font-bold text-sm">Speaking</h3>
-          <p class="text-xs text-slate-400">Fluency, Idioms & Collocations</p>
-        </div>
-      </div>
 
-      <!-- Content Display Area -->
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Interactive Practice Card -->
-        <div class="md:col-span-2 glassmorphism p-6 rounded-2xl border border-slate-800">
-          <div class="flex items-center justify-between mb-4">
-            <span id="card-tag" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Vocabulary</span>
-            <span id="card-band" class="text-xs font-mono text-slate-400">Band: 8.0+</span>
-          </div>
-          <h4 id="card-title" class="text-xl font-bold mb-2">Ubiquitous</h4>
-          <p id="card-desc" class="text-slate-300 text-sm mb-4">Present, appearing, or found everywhere.</p>
-          <div id="card-example" class="p-3 bg-slate-900/80 rounded-lg text-xs text-slate-300 italic border-l-2 border-indigo-500 mb-6">
-            "Smartphones have become ubiquitous in daily modern life."
-          </div>
-          <div class="flex items-center justify-between pt-4 border-t border-slate-800">
-            <button onclick="nextCard(-1)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold">Previous</button>
-            <span id="card-counter" class="text-xs font-mono text-slate-500">1 / 3</span>
-            <button onclick="nextCard(1)" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold">Next Card</button>
+        <div>
+          <h3 id="card-title" class="text-2xl font-bold text-white mb-1">Loading...</h3>
+          <p id="card-type" class="text-xs font-mono text-indigo-300 italic mb-3">verb</p>
+          <p id="card-meaning" class="text-sm text-slate-200 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">Đang tải định nghĩa...</p>
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-xs font-semibold text-cyan-400 block"><i class="fa-solid fa-link mr-1"></i> Collocation & Ngữ cảnh:</span>
+          <div id="card-collocation" class="p-3 bg-slate-950 rounded-xl text-xs text-slate-300 border-l-2 border-cyan-400">
+            Đang tải ví dụ...
           </div>
         </div>
 
-        <!-- Quick Strategy / Tip Box -->
-        <div class="glassmorphism p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-2 text-amber-400 mb-3">
-              <i class="fa-solid fa-lightbulb"></i>
-              <h4 class="font-bold text-sm">Top 0.1% Insight</h4>
-            </div>
-            <p id="strategy-tip" class="text-xs text-slate-300 leading-relaxed">
-              Muốn phá vỡ rào cản band 7.0 lên 8.0+ Writing & Speaking, đừng cố nhồi nhét từ vựng quá hiếm. Hãy tập trung tối ưu **Collocation tự nhiên**, kiểm soát chặt chẽ **Coherence (tính mạch lạc)** và giảm thiểu sai số ngữ pháp về 0.
-            </p>
-          </div>
-          <div class="mt-4 pt-4 border-t border-slate-800">
-            <span class="text-[11px] text-slate-500 block">Tiến độ cá nhân hóa</span>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
-              <div class="bg-indigo-500 h-full w-1/3"></div>
-            </div>
+        <div class="space-y-2">
+          <span class="text-xs font-semibold text-emerald-400 block"><i class="fa-solid fa-quote-left mr-1"></i> Câu mẫu IELTS Writing/Speaking:</span>
+          <div id="card-example" class="p-3 bg-slate-950 rounded-xl text-xs text-slate-300 italic border-l-2 border-emerald-400">
+            Đang tải ví dụ...
           </div>
         </div>
+
+        <!-- Controller Buttons -->
+        <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+          <button onclick="navigateCard(-1)" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold transition">
+            <i class="fa-solid fa-chevron-left mr-1"></i> Thẻ trước
+          </button>
+          <span id="card-counter" class="text-xs font-mono text-slate-500">0 / 0</span>
+          <button onclick="navigateCard(1)" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+            Thẻ tiếp theo <i class="fa-solid fa-chevron-right ml-1"></i>
+          </button>
+        </div>
+
       </div>
 
     </div>
 
-    <!-- Medical Module Placeholder -->
-    <div id="med-section" class="hidden space-y-6 text-center py-16">
-      <div class="w-16 h-16 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto text-2xl mb-4 border border-cyan-500/20">
-        <i class="fa-solid fa-dna"></i>
+    <!-- Medical Module (Sẵn sàng mở rộng sau này) -->
+    <div id="med-section" class="hidden space-y-6 text-center py-16 glass-card rounded-2xl">
+      <div class="w-14 h-14 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto text-xl mb-3 border border-cyan-500/20">
+        <i class="fa-solid fa-stethoscope"></i>
       </div>
-      <h2 class="text-2xl font-bold">Medical Knowledge Base</h2>
-      <p class="text-slate-400 max-w-md mx-auto text-xs leading-relaxed">
-        Phần mở rộng dành cho Thuật ngữ Y khoa tiếng Anh (Medical Terminology), Sinh học phân tử và Dược lý học sẽ được tích hợp sau khi hoàn thiện cốt lõi IELTS.
+      <h2 class="text-xl font-bold">Medical Terminology Hub</h2>
+      <p class="text-slate-400 max-w-sm mx-auto text-xs leading-relaxed">
+        Phần ôn tập Y khoa & Thuật ngữ Sinh học sẽ tự kích hoạt khi nạp file dữ liệu Y khoa.
       </p>
     </div>
 
   </main>
 
   <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
-    Mastery Hub Engine • Designed for High-Performance Learning
+    Mastery Hub • Single-Page Study System
   </footer>
 
-  <!-- App Logic -->
-  <script>
-    // Data Structure mẫu (dễ dàng mở rộng ra file JSON riêng sau này)
-    const dataset = [
-      {
-        id: 1,
-        skill: "speaking",
-        band: "8.0+",
-        tag: "Collocation",
-        title: "Mitigate the impact",
-        desc: "Làm giảm thiểu mức độ ảnh hưởng tiêu cực của một vấn đề.",
-        example: "Effective urban planning can mitigate the adverse impact of climate change."
-      },
-      {
-        id: 2,
-        skill: "writing",
-        band: "7.0-7.5",
-        tag: "Academic Phrase",
-        title: "A contentious issue",
-        desc: "Một vấn đề gây ra nhiều tranh cãi gay gắt.",
-        example: "The implementation of AI in healthcare remains a highly contentious issue."
-      },
-      {
-        id: 3,
-        skill: "reading",
-        band: "5.5-6.5",
-        tag: "Core Vocab",
-        title: "Substantial (adj)",
-        desc: "Đáng kể, quan trọng về kích thước, giá trị hoặc số lượng.",
-        example: "There has been a substantial increase in public transport usage."
-      }
-    ];
-
-    let currentIndex = 0;
-    let filteredData = [...dataset];
-
-    function renderCard() {
-      if (filteredData.length === 0) {
-        document.getElementById('card-title').innerText = "Chưa có dữ liệu";
-        document.getElementById('card-desc').innerText = "Thử chọn band hoặc kỹ năng khác.";
-        document.getElementById('card-example').innerText = "-";
-        document.getElementById('card-counter').innerText = "0 / 0";
-        return;
-      }
-      const item = filteredData[currentIndex];
-      document.getElementById('card-tag').innerText = item.tag;
-      document.getElementById('card-band').innerText = `Band: ${item.band}`;
-      document.getElementById('card-title').innerText = item.title;
-      document.getElementById('card-desc').innerText = item.desc;
-      document.getElementById('card-example').innerText = `"${item.example}"`;
-      document.getElementById('card-counter').innerText = `${currentIndex + 1} / ${filteredData.length}`;
-    }
-
-    function nextCard(step) {
-      if (filteredData.length <= 1) return;
-      currentIndex = (currentIndex + step + filteredData.length) % filteredData.length;
-      renderCard();
-    }
-
-    function setBand(band) {
-      if (band === 'all') {
-        filteredData = [...dataset];
-      } else {
-        filteredData = dataset.filter(item => item.band === band);
-      }
-      currentIndex = 0;
-      renderCard();
-    }
-
-    function filterSkill(skill) {
-      filteredData = dataset.filter(item => item.skill === skill);
-      currentIndex = 0;
-      renderCard();
-    }
-
-    function switchDomain(domain) {
-      const ieltsSec = document.getElementById('ielts-section');
-      const medSec = document.getElementById('med-section');
-      const tabIelts = document.getElementById('tab-ielts');
-      const tabMed = document.getElementById('tab-med');
-
-      if (domain === 'ielts') {
-        ieltsSec.classList.remove('hidden');
-        medSec.classList.add('hidden');
-        tabIelts.className = "px-4 py-1.5 rounded-lg bg-indigo-600 text-white transition";
-        tabMed.className = "px-4 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5";
-      } else {
-        ieltsSec.classList.add('hidden');
-        medSec.classList.remove('hidden');
-        tabMed.className = "px-4 py-1.5 rounded-lg bg-cyan-600 text-white transition flex items-center gap-1.5";
-        tabIelts.className = "px-4 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
-      }
-    }
-
-    // Init first load
-    renderCard();
-  </script>
+  <!-- KẾT NỐI FILE DỮ LIỆU VÀ FILE LOGIC -->
+  <script src="data/ielts_vocab.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
