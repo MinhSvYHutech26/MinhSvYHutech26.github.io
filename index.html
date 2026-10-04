@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MedMate - Trợ thủ học Y</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f7fa;--ink:#12263a;--mut:#62788c;--line:#dde7ee;--card:#fff;--eo:#d9437a;--eo2:#fde8f0;--he:#5b3a8c;--he2:#ece6f6;--ok:#1f9d7a}
+*{box-sizing:border-box;margin:0}
+body{font:15px/1.55 'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);background:var(--bg);display:flex;min-height:100vh}
+nav{width:220px;padding:22px 14px;background:#fff;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;flex:none}
+.logo{font-weight:800;font-size:20px;padding:0 10px 18px;letter-spacing:-.3px}.logo b{color:var(--eo)}
+nav button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;font:inherit;color:var(--mut);cursor:pointer;font-weight:500}
+nav button:hover{background:var(--bg)}nav button.on{background:var(--he2);color:var(--he);font-weight:600}
+main{flex:1;padding:30px clamp(16px,4vw,48px);max-width:1000px}
+h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}h2{font-size:17px;font-weight:600;margin:0 0 12px}
+.sub{color:var(--mut);margin-bottom:22px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px}
+.stat{border-radius:14px;padding:16px;background:var(--he2)}.stat:nth-child(2){background:var(--eo2)}.stat:nth-child(3){background:#e2f4ee}.stat:nth-child(4){background:#fff3dc}
+.stat b{display:block;font-size:30px;font-weight:800;line-height:1.1}.stat span{color:var(--mut);font-size:13px}
+input,select,textarea{font:inherit;color:inherit;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff;width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--he);outline-offset:1px}
+textarea{resize:vertical;min-height:70px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}.row>*{flex:1;min-width:140px}
+.btn{border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;background:var(--eo);color:#fff;flex:none;width:auto}
+.btn.g{background:var(--he2);color:var(--he)}.btn.s{padding:6px 12px;font-size:13px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:120px}.bars div{flex:1;text-align:center;font-size:12px;color:var(--mut)}
+.bars i{display:block;background:var(--he);border-radius:6px 6px 0 0;min-height:3px;margin-bottom:4px}
+.fc{text-align:center;padding:34px 20px;border-radius:16px;background:linear-gradient(160deg,#fff,var(--he2));border:1px solid var(--line);min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.fc .q{font-size:20px;font-weight:600;white-space:pre-wrap}.fc .a{color:var(--he);white-space:pre-wrap}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;background:var(--he2);color:var(--he);font-weight:600}
+.ring{width:230px;height:230px;border-radius:50%;margin:10px auto 20px;display:grid;place-items:center;background:conic-gradient(var(--eo) calc(var(--p)*1%),var(--eo2) 0)}
+.ring div{width:190px;height:190px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.ring b{font-size:46px;font-weight:800;letter-spacing:-1px;display:block;line-height:1}.ring span{color:var(--mut);font-size:13px}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.item:first-of-type{border-top:0}
+.item .t{flex:1}.item.done .t{text-decoration:line-through;color:var(--mut)}.x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:18px}
+.due{font-size:13px;color:var(--mut)}.due.late{color:var(--eo);font-weight:600}
+.empty{color:var(--mut);padding:8px 0}
+@media(max-width:720px){body{flex-direction:column}nav{width:100%;height:auto;position:static;display:flex;overflow-x:auto;padding:10px;gap:4px;border-right:0;border-bottom:1px solid var(--line)}.logo{display:none}nav button{white-space:nowrap;width:auto}}
+@media(prefers-reduced-motion:no-preference){main>*{animation:in .35s ease both}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+<main id="v"></main>
+<script>
+/* ===== Cấu hình: sửa danh sách môn ở đây ===== */
+const SUBJ=["Giải phẫu","Sinh lý","Mô học","Hóa sinh","Sinh học tế bào","Di truyền","Vật lý y sinh","Khác"];
+const TABS=[["home","Tổng quan"],["cards","Flashcard"],["timer","Tập trung"],["tasks","Lịch & Deadline"],["data","Dữ liệu"]];
+const K="medmate-v1";
+let S={};try{S=JSON.parse(localStorage.getItem(K))||{}}catch(e){}
+S=Object.assign({cards:[],tasks:[],log:[],rev:{}},S);
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dk=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const opts=(sel)=>SUBJ.map(s=>`<option ${s==sel?'selected':''}>${s}</option>`).join('');
+const fmt=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
+const minsOn=k=>S.log.filter(l=>dk(l.t)==k).reduce((a,l)=>a+l.m,0);
+let cur='home';
+
+function go(n){cur=n;$('#nav').innerHTML='<div class="logo">Med<b>Mate</b></div>'+TABS.map(t=>`<button class="${t[0]==n?'on':''}" onclick="go('${t[0]}')">${t[1]}</button>`).join('');V[n]();paint()}
+
+const V={
+home(){
+  const now=Date.now(),due=S.cards.filter(c=>c.due<=now).length;
+  const pend=S.tasks.filter(t=>!t.done).sort((a,b)=>(a.d||'9').localeCompare(b.d||'9'));
+  let streak=0;for(let i=0;i<400;i++){const k=dk(now-i*864e5);if(minsOn(k)||S.rev[k])streak++;else if(i>0)break;else continue}
+  const days=[...Array(7)].map((_,i)=>{const t=now-(6-i)*864e5;return[['CN','T2','T3','T4','T5','T6','T7'][new Date(t).getDay()],minsOn(dk(t))]});
+  const mx=Math.max(30,...days.map(d=>d[1])),h=new Date().getHours();
+  $('#v').innerHTML=`<h1>${h<11?'Chào buổi sáng':h<18?'Chào buổi chiều':'Chào buổi tối'}, bác sĩ tương lai</h1>
+  <p class="sub">Mỗi ngày một ít, đến kỳ thi sẽ nhẹ nhàng hơn nhiều.</p>
+  <div class="grid"><div class="stat"><b>${minsOn(dk(now))} phút</b><span>Đã tập trung hôm nay</span></div>
+  <div class="stat"><b>${due}</b><span>Thẻ cần ôn ngay</span></div>
+  <div class="stat"><b>${pend.length}</b><span>Việc chưa xong</span></div>
+  <div class="stat"><b>${streak} ngày</b><span>Chuỗi học liên tiếp</span></div></div>
+  <div class="box"><h2>7 ngày gần nhất (phút tập trung)</h2><div class="bars">${days.map(d=>`<div><i style="height:${d[1]/mx*90}px"></i>${d[0]}<br>${d[1]}</div>`).join('')}</div></div>
+  <div class="box"><h2>Sắp tới</h2>${pend.slice(0,4).map(taskRow).join('')||'<p class="empty">Chưa có việc nào. Thêm deadline ở mục Lịch & Deadline.</p>'}</div>`},
+
+cards(){
+  const now=Date.now(),dueL=S.cards.filter(c=>c.due<=now).sort((a,b)=>a.due-b.due);
+  $('#v').innerHTML=`<h1>Flashcard</h1><p class="sub">Ôn lặp lại ngắt quãng: thẻ khó hiện thường xuyên, thẻ dễ thưa dần.</p>
+  <div class="box" id="rv"></div>
+  <div class="box"><h2>Thêm thẻ mới</h2><div class="row"><select id="cs">${opts()}</select></div>
+  <div class="row"><textarea id="cq" placeholder="Câu hỏi hoặc thuật ngữ (VD: Thần kinh nào chi phối cơ delta?)"></textarea><textarea id="ca" placeholder="Đáp án"></textarea></div>
+  <button class="btn" onclick="addCard()">Thêm thẻ</button></div>
+  <div class="box"><h2>Tất cả thẻ (${S.cards.length})</h2>${S.cards.slice(-30).reverse().map(c=>`<div class="item"><span class="tag">${esc(c.s)}</span><span class="t">${esc(c.q)}</span><button class="x" aria-label="Xóa" onclick="delCard(${c.id})">×</button></div>`).join('')||'<p class="empty">Chưa có thẻ nào.</p>'}</div>`;
+  showCard()},
+
+timer(){
+  $('#v').innerHTML=`<h1>Tập trung</h1><p class="sub">25 phút học, 5 phút nghỉ. Thời gian được ghi lại theo môn.</p>
+  <div class="box" style="text-align:center"><div class="row" style="justify-content:center"><select id="ts" style="max-width:240px" onchange="T.subj=this.value">${opts(T.subj)}</select></div>
+  <div class="ring" id="rg"><div><p><b id="tm"></b><span id="tmode"></span></p></div></div>
+  <button class="btn" id="tgo" onclick="tgo()"></button> <button class="btn g" onclick="trs()">Đặt lại</button></div>
+  <div class="box"><h2>Theo môn (tổng cộng)</h2>${SUBJ.map(s=>[s,S.log.filter(l=>l.s==s).reduce((a,l)=>a+l.m,0)]).filter(x=>x[1]).map(x=>`<div class="item"><span class="t">${x[0]}</span><b>${(x[1]/60).toFixed(1)} giờ</b></div>`).join('')||'<p class="empty">Chưa có phiên nào hoàn thành.</p>'}</div>`},
+
+tasks(){
+  $('#v').innerHTML=`<h1>Lịch & Deadline</h1><p class="sub">Bài tập, kiểm tra, thi giữa kỳ, tất cả ở một chỗ.</p>
+  <div class="box"><div class="row"><input id="tt" placeholder="Việc cần làm (VD: Thi giữa kỳ Giải phẫu)"><input id="td" type="date"><select id="tj">${opts()}</select></div>
+  <button class="btn" onclick="addTask()">Thêm việc</button></div>
+  <div class="box">${[...S.tasks].sort((a,b)=>(a.done-b.done)||(a.d||'9').localeCompare(b.d||'9')).map(taskRow).join('')||'<p class="empty">Chưa có việc nào.</p>'}</div>`},
+
+data(){
+  $('#v').innerHTML=`<h1>Dữ liệu</h1><p class="sub">Dữ liệu lưu ngay trong trình duyệt này. Hãy xuất bản sao lưu định kỳ, nhất là trước khi xóa lịch sử duyệt web.</p>
+  <div class="box"><div class="row"><button class="btn" onclick="exp()">Xuất sao lưu (.json)</button><label class="btn g" style="text-align:center">Nhập sao lưu<input type="file" accept=".json" hidden onchange="imp(this)"></label></div></div>
+  <div class="box"><h2>Hướng phát triển tiếp theo</h2><p class="sub" style="margin:0">Thêm môn học và đề cương, ghi chú theo bài, ngân hàng câu hỏi trắc nghiệm, bảng tra cứu giải phẫu/xét nghiệm, tính điểm GPA, và đồng bộ giữa điện thoại với máy tính.</p></div>`}
+};
+
+/* ===== Flashcard (thuật toán SM-2 rút gọn) ===== */
+let shown=false;
+function showCard(){
+  const c=S.cards.filter(c=>c.due<=Date.now()).sort((a,b)=>a.due-b.due)[0],r=$('#rv');if(!r)return;shown=false;
+  if(!c){r.innerHTML=`<div class="fc"><div class="q">${S.cards.length?'Hết thẻ cần ôn. Làm tốt lắm!':'Thêm thẻ đầu tiên ở bên dưới để bắt đầu.'}</div></div>`;return}
+  r.innerHTML=`<div class="fc"><span class="tag" style="align-self:center">${esc(c.s)}</span><div class="q">${esc(c.q)}</div><div class="a" id="an" hidden>${esc(c.a)}</div></div>
+  <div class="row" style="margin:14px 0 0;justify-content:center" id="ac"><button class="btn" onclick="rev1()">Hiện đáp án</button></div>`;
+  window._c=c}
+function rev1(){$('#an').hidden=false;$('#ac').innerHTML=[['Quên',0],['Khó',1],['Tốt',2],['Dễ',3]].map(x=>`<button class="btn ${x[1]?'g':''}" onclick="rate(${x[1]})">${x[0]}</button>`).join('')}
+function rate(q){const c=window._c;
+  if(q==0){c.iv=0;c.ef=Math.max(1.3,(c.ef||2.5)-.2);c.due=Date.now()+6e5}
+  else{c.ef=Math.max(1.3,(c.ef||2.5)+[0,-.15,0,.15][q]);c.iv=q==1?Math.max(1,Math.round((c.iv||1)*1.2)):!c.iv?(q==3?3:1):Math.round(c.iv*c.ef*(q==3?1.3:1));c.due=Date.now()+c.iv*864e5}
+  const k=dk(Date.now());S.rev[k]=(S.rev[k]||0)+1;save();showCard()}
+function addCard(){const q=$('#cq').value.trim(),a=$('#ca').value.trim();if(!q||!a)return;S.cards.push({id:Date.now(),s:$('#cs').value,q,a,due:Date.now(),iv:0,ef:2.5});save();V.cards()}
+function delCard(id){S.cards=S.cards.filter(c=>c.id!=id);save();V.cards()}
+
+/* ===== Công việc ===== */
+function taskRow(t){let d='';if(t.d){const n=Math.ceil((new Date(t.d+'T23:59')-Date.now())/864e5);d=`<span class="due ${n<=2&&!t.done?'late':''}">${n<0?'Quá hạn '+(-n)+' ngày':n==0?'Hôm nay':'Còn '+n+' ngày'}</span>`}
+  return `<div class="item ${t.done?'done':''}"><input type="checkbox" style="width:auto" ${t.done?'checked':''} onchange="tick(${t.id})"><span class="t">${esc(t.t)} <span class="tag">${esc(t.s)}</span></span>${d}<button class="x" aria-label="Xóa" onclick="delTask(${t.id})">×</button></div>`}
+function addTask(){const t=$('#tt').value.trim();if(!t)return;S.tasks.push({id:Date.now(),t,d:$('#td').value,s:$('#tj').value,done:false});save();V.tasks()}
+function tick(id){const t=S.tasks.find(x=>x.id==id);t.done=!t.done;save();go(cur)}
+function delTask(id){S.tasks=S.tasks.filter(x=>x.id!=id);save();go(cur)}
+
+/* ===== Đồng hồ tập trung (chạy theo mốc thời gian, không lệch khi chuyển tab) ===== */
+let T={run:false,end:0,left:1500,mode:'f',subj:SUBJ[0]};
+const dur=()=>T.mode=='f'?1500:300;
+function tgo(){if(T.run){T.run=false}else{T.end=Date.now()+T.left*1e3;T.run=true}paint()}
+function trs(){T.run=false;T.left=dur();paint()}
+function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=660;o.start();o.stop(a.currentTime+.4)}catch(e){}}
+function paint(){const e=$('#tm');document.title=T.run?fmt(T.left)+' - MedMate':'MedMate - Trợ thủ học Y';if(!e)return;
+  e.textContent=fmt(T.left);$('#tmode').textContent=T.mode=='f'?'Đang học':'Nghỉ ngơi';$('#tgo').textContent=T.run?'Tạm dừng':'Bắt đầu';$('#rg').style.setProperty('--p',(1-T.left/dur())*100)}
+setInterval(()=>{if(!T.run)return;T.left=Math.max(0,Math.round((T.end-Date.now())/1e3));
+  if(!T.left){T.run=false;beep();if(T.mode=='f'){S.log.push({t:Date.now(),m:25,s:T.subj});save()}T.mode=T.mode=='f'?'b':'f';T.left=dur();if(cur=='timer')V.timer()}paint()},500);
+
+/* ===== Sao lưu ===== */
+function exp(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='medmate-'+dk(Date.now())+'.json';a.click()}
+function imp(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.cards))throw 0;S=Object.assign({cards:[],tasks:[],log:[],rev:{}},d);save();go('home')}catch(e){alert('File không hợp lệ. Hãy chọn file sao lưu của MedMate.')}};r.readAsText(f)}
+
+go('home');
+</script>
+</body>
+</html>
